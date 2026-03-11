@@ -1,3 +1,4 @@
+import ExcelIslemleri from "./ExcelIslemleri";
 import { useState, useRef, useEffect } from "react";
 import { supabase } from "./supabaseClient";
 import Login from "./Login";
@@ -172,7 +173,7 @@ export default function App() {
     if (yeni) setSeciliHasta(yeni);
   };
 
-  
+
   // Hasta ekle
   const hastaEkle = async () => {
     if (!yeniHasta.ad || !yeniHasta.soyad || !yeniHasta.tc) return showMesaj("Ad, soyad ve TC zorunludur!");
@@ -313,6 +314,7 @@ export default function App() {
     { key: "hatirlatici", label: "Tüm Takvim", icon: "📋" },
     { key: "hastalar", label: "Hastalar", icon: "👥" },
     { key: "ekle", label: "Hasta Ekle", icon: "➕" },
+    { key: "excel", label: "Excel İşlemleri", icon: "📊" },
   ];
 
   const tabs = [
@@ -358,6 +360,7 @@ export default function App() {
             {page === "dashboard" && "Dashboard"}
             {page === "gunluk" && "🔔 Günlük Hatırlatmalar"}
             {page === "hatirlatici" && "📋 Tüm Takvim"}
+            {page === "excel" && "📊 Excel İşlemleri"}
             {page === "hastalar" && "Hasta Listesi"}
             {page === "ekle" && "Yeni Hasta Ekle"}
             {page === "detay" && aktifHasta && `${aktifHasta.ad} ${aktifHasta.soyad}`}
@@ -562,6 +565,16 @@ export default function App() {
               </div>
             </div>
           )}
+
+         {page === "excel" && (
+  <ExcelIslemleri
+    hastalar={hastalar}
+    onYuklendi={veriYukle}
+    showMesaj={showMesaj}
+  />
+)}   
+
+
 
           {/* HASTA EKLE */}
           {page === "ekle" && (
