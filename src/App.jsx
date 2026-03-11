@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { supabase } from "./supabaseClient";
+import Login from "./Login";
 
 const AMELIYAT_TURLERI = ["Sleeve Gastrektomi", "MGB", "Roux-en-Y", "Revizyon RnY", "Resleeve", "Diğer"];
 const KONTROL_ADLARI = ["1. Ay", "3. Ay", "6. Ay", "9. Ay", "12. Ay", "18. Ay", "24. Ay"];
@@ -106,6 +107,7 @@ function belgeBadgeRengi(tur) {
 }
 
 export default function App() {
+  const [girisYapildi, setGirisYapildi] = useState(false);
   const [page, setPage] = useState("dashboard");
   const [hastalar, setHastalar] = useState([]);
   const [yukleniyor, setYukleniyor] = useState(true);
@@ -161,6 +163,7 @@ export default function App() {
   };
 
   useEffect(() => { veriYukle(); }, []);
+  if (!girisYapildi) return <Login onGiris={() => setGirisYapildi(true)} />;
 
   const hastaDetay = h => { setSeciliHasta(h); setDetayTab("bilgiler"); setPage("detay"); };
 
