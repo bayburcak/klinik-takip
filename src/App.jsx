@@ -172,6 +172,7 @@ export default function App() {
     if (yeni) setSeciliHasta(yeni);
   };
 
+  
   // Hasta ekle
   const hastaEkle = async () => {
     if (!yeniHasta.ad || !yeniHasta.soyad || !yeniHasta.tc) return showMesaj("Ad, soyad ve TC zorunludur!");
