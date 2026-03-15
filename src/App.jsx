@@ -582,7 +582,7 @@ dogum_tarihi: yeniHasta.dogumTarihi,
             <div className="max-w-xl">
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  {[["Ad *", "ad"], ["Soyad *", "soyad"], [["Doğum Tarihi", "dogumTarihi"], ["Telefon", "tel"], ["Boy (cm)", "boy"], ["Ameliyat Öncesi Kilo (kg)", "ameliyatOncesiKilo"]].map(([lbl, key]) => (
+                  {[["Ad *", "ad"], ["Soyad *", "soyad"], ["Doğum Tarihi", "dogumTarihi"], ["Telefon", "tel"], ["Boy (cm)", "boy"], ["Ameliyat Öncesi Kilo (kg)", "ameliyatOncesiKilo"]].map(([lbl, key]) => (
                     <Input key={key} label={lbl} value={yeniHasta[key]} onChange={v => setYeniHasta({ ...yeniHasta, [key]: v })} type={["boy", "ameliyatOncesiKilo"].includes(key) ? "number" : key === "dogumTarihi" ? "date" : "text"}/>
                   ))}
                 </div>
