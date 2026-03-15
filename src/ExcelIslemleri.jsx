@@ -20,7 +20,7 @@ export default function ExcelIslemleri({ hastalar, onYuklendi, showMesaj }) {
     const hastaRows = hastalar.map(h => ({
       "Ad": h.ad,
       "Soyad": h.soyad,
-      "Yaş": h.yas,
+      "Doğum Tarihi": h.dogum_tarihi || "",
       "Telefon": h.tel || "",
       "Boy (cm)": h.boy || "",
       "Ameliyat Öncesi Kilo (kg)": h.ameliyat_oncesi_kilo || "",
@@ -61,7 +61,7 @@ export default function ExcelIslemleri({ hastalar, onYuklendi, showMesaj }) {
     const wb = XLSX.utils.book_new();
 
     const hastaOrnek = [{
-      "Ad": "Ayşe", "Soyad": "Yılmaz", "Yaş": 34,
+      "Ad": "Ayşe", "Soyad": "Yılmaz", "Doğum Tarihi": "1990-01-15",
       "Telefon": "0532 111 2233", "Boy (cm)": 165, "Ameliyat Öncesi Kilo (kg)": 112,
       "Ameliyat Türü": "Sleeve Gastrektomi", "Ameliyat Tarihi": "2025-03-01", "Cerrah": "Op. Dr. Ahmet"
     }];
@@ -106,7 +106,8 @@ export default function ExcelIslemleri({ hastalar, onYuklendi, showMesaj }) {
           const { data: yeniHasta, error } = await supabase.from("hastalar").insert({
             ad,
             soyad,
-            yas: row["Yaş"] ? Number(row["Yaş"]) : null,
+            yas: row["Doğum Tarihi"] ? new Date().getFullYear() - new Date(row["Doğum Tarihi"]).getFullYear() : null,
+dogum_tarihi: row["Doğum Tarihi"] ? row["Doğum Tarihi"].toString() : null,
             tel: row["Telefon"]?.toString() || null,
             boy: row["Boy (cm)"] ? Number(row["Boy (cm)"]) : null,
             ameliyat_oncesi_kilo: row["Ameliyat Öncesi Kilo (kg)"] ? Number(row["Ameliyat Öncesi Kilo (kg)"]) : null,
