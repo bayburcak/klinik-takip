@@ -176,7 +176,7 @@ export default function App() {
 
   // Hasta ekle
   const hastaEkle = async () => {
-    if (!yeniHasta.ad || !yeniHasta.soyad || !yeniHasta.tc) return showMesaj("Ad, soyad ve TC zorunludur!");
+    if (!yeniHasta.ad || !yeniHasta.soyad) return showMesaj("Ad ve soyad zorunludur!");
     const { error } = await supabase.from("hastalar").insert({
       ad: yeniHasta.ad, soyad: yeniHasta.soyad, yas: yeniHasta.dogumTarihi ? new Date().getFullYear() - new Date(yeniHasta.dogumTarihi).getFullYear() : null,
 dogum_tarihi: yeniHasta.dogumTarihi,
