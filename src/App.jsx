@@ -128,7 +128,7 @@ export default function App() {
   const [dosyaYukleniyor, setDosyaYukleniyor] = useState(false);
   const fileRef = useRef();
 
-  const [yeniHasta, setYeniHasta] = useState({ ad: "", soyad: "", yas: "", tc: "", tel: "", kan: "", boy: "", ameliyatOncesiKilo: "" });
+  const [yeniHasta, setYeniHasta] = useState({ ad: "", soyad: "", dogumTarihi: "", tel: "", boy: "", ameliyatOncesiKilo: "" });
   const [yeniAmeliyat, setYeniAmeliyat] = useState({ tur: AMELIYAT_TURLERI[0], tarih: "", cerrah: "", notlar: "" });
   const [yeniKilo, setYeniKilo] = useState({ kontrolAdi: KONTROL_ADLARI[0], tarih: "", kilo: "" });
   const [yeniRandevu, setYeniRandevu] = useState({ tarih: "", saat: "", notlar: "" });
@@ -178,7 +178,8 @@ export default function App() {
   const hastaEkle = async () => {
     if (!yeniHasta.ad || !yeniHasta.soyad || !yeniHasta.tc) return showMesaj("Ad, soyad ve TC zorunludur!");
     const { error } = await supabase.from("hastalar").insert({
-      ad: yeniHasta.ad, soyad: yeniHasta.soyad, yas: Number(yeniHasta.yas),
+      ad: yeniHasta.ad, soyad: yeniHasta.soyad, yas: yeniHasta.dogumTarihi ? new Date().getFullYear() - new Date(yeniHasta.dogumTarihi).getFullYear() : null,
+dogum_tarihi: yeniHasta.dogumTarihi,
       tc: yeniHasta.tc, tel: yeniHasta.tel, kan: yeniHasta.kan,
       boy: Number(yeniHasta.boy), ameliyat_oncesi_kilo: Number(yeniHasta.ameliyatOncesiKilo)
     });
@@ -581,8 +582,8 @@ export default function App() {
             <div className="max-w-xl">
               <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  {[["Ad *", "ad"], ["Soyad *", "soyad"], ["Yaş", "yas"], ["Telefon", "tel"], ["Kan Grubu", "kan"], ["Boy (cm)", "boy"], ["Ameliyat Öncesi Kilo (kg)", "ameliyatOncesiKilo"]].map(([lbl, key]) => (
-                    <Input key={key} label={lbl} value={yeniHasta[key]} onChange={v => setYeniHasta({ ...yeniHasta, [key]: v })} type={["yas", "boy", "ameliyatOncesiKilo"].includes(key) ? "number" : "text"} />
+                  {[["Ad *", "ad"], ["Soyad *", "soyad"], [["Doğum Tarihi", "dogumTarihi"], ["Telefon", "tel"], ["Boy (cm)", "boy"], ["Ameliyat Öncesi Kilo (kg)", "ameliyatOncesiKilo"]].map(([lbl, key]) => (
+                    <Input key={key} label={lbl} value={yeniHasta[key]} onChange={v => setYeniHasta({ ...yeniHasta, [key]: v })} type={["boy", "ameliyatOncesiKilo"].includes(key) ? "number" : key === "dogumTarihi" ? "date" : "text"}/>
                   ))}
                 </div>
                 <button onClick={hastaEkle} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors shadow-sm">➕ Hasta Ekle</button>
